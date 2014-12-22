@@ -29,7 +29,7 @@ public class RecursiveSelectionSort {
         if(arr.length == 1)return;
         int max = 0;
         for(int i = 1; i < arr.length; i++){
-            if(arr[max]< arr[i])max = i;
+            if(arr[max] < arr[i])max = i;
         }
         int temp = arr[0];
         arr[0] = arr[max];
