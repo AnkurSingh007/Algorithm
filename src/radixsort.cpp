@@ -5,8 +5,13 @@ using namespace std;
 
 int getIntAtPos(int num, int pos){
 	if(pos == 0)return num%10;
+    int divisor = 1;
+	for(int i = 0; i < pos; i++){
+		divisor *= 10;
+	}
+	if(pos == 0)return num %10;
 	else{
-		return ((num - (num % (int)pow(10, pos))) / 10) % 10;
+		return (num - (num % divisor) )/ divisor;
 	}
 }
 
@@ -15,18 +20,20 @@ void countingsort(int *arr, int size, int pos){
 	int temp[] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 	int k = 0;
 	for(int j = 0; j < 10; j++){
-		for(int i = 0; i < size; i++){
+		for(int i = k; i < size; i++){
 				if(getIntAtPos(arr[i], pos) == j){
 					int temp = arr[i];
 					arr[i] = arr[k];
 					arr[k++] = temp;
 				}
-		}
-	}
 	
+		}
+
 	}
 	
 }
+	
+
 
 
 
