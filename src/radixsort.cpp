@@ -6,31 +6,71 @@ using namespace std;
 int getIntAtPos(int num, int pos){
 	if(pos == 0)return num%10;
     int divisor = 1;
-	for(int i = 0; i < pos; i++){
+	for(int i = 0; i <pos; i++){
 		divisor *= 10;
 	}
-	if(pos == 0)return num %10;
+	if(pos == 0)return num %10;          
 	else{
-		return (num - (num % divisor) )/ divisor;
+		return ((num - (num % divisor) )/ divisor)%10;
 	}
 }
 
 
-void countingsort(int *arr, int size, int pos){
-	int temp[] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+void radixsort(int *arr, int size, int numdig){
+	int arr2[size];
+	int digits[size];
 	int k = 0;
-	for(int j = 0; j < 10; j++){
-		for(int i = k; i < size; i++){
-				if(getIntAtPos(arr[i], pos) == j){
-					int temp = arr[i];
-					arr[i] = arr[k];
-					arr[k++] = temp;
-				}
-	
-		}
-
+	for(int i = 0; i< size; i++){
+		arr2[i] = 0;
+		digits[0] = 0;
 	}
-	
+	for(int i = 0; i < numdig; i++){
+		int temp[] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+		//Getting digits 
+		for(int k = 0;  k < size; k++){
+			digits[k] = getIntAtPos(arr[k], i);
+		}
+		//printing digits
+		for(int k = 0; k < size; k++){
+			cout<<digits[k]<<"\t";
+		}
+		cout<<endl;
+		//Historgram creation
+		for(int j = 0; j < size; j++){
+			if(digits[j] != 9){
+				for(int k = digits[j] + 1; k < 10; k++){
+				temp[k]++;
+				}
+			}
+		}
+		//printing histogram
+		cout<<"Histogram is"<<endl;
+		for(int k = 0; k < 10; k++){
+			cout<<temp[k]<<"\t";
+		}
+			cout<<endl;
+		//sorting based on position of digit
+		for(int j = 0; j < size; j++){
+			if(digits[j] != 9){
+				if(temp[digits[j]] != temp[digits[j] + 1]){
+					arr2[temp[digits[j]]++] = arr[j];
+				}
+			}
+			else if(temp[9] <= size - 1){
+				arr2[temp[9]++] = arr[j];
+			}
+		}
+		cout<<endl;
+		//priting array
+		cout<<endl;
+		for(int k = 0; k < size; k++){
+			cout<<arr2[k]<<"\t";
+		}
+		cout<<endl;
+		for(int j = 0; j < size; j++){
+			arr[j] = arr2[j];
+		}
+	}
 }
 	
 
@@ -56,10 +96,7 @@ int main(){
 		max /= 10;
 		maxNumofDigits += 1;
 	}
-	for(int i = 0; i < maxNumofDigits; ++i){
-		countingsort(arr, num, i);
-	}
-	
+	radixsort(arr, num, maxNumofDigits);
 	cout<<"----------------------------------------------"<<endl;
 	cout<<"sorted array is"<<endl;
 	for(int i = 0; i < num; i++){
